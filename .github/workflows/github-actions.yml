@@ -1,0 +1,29 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Install And Test
+        run: |
+          curl -sS https://getcomposer.org/download/2.8.2/composer.phar -o /usr/local/bin/composer
+          ln -s /usr/local/bin/composer /usr/local/bin/composer2
+          make app-install
+          make app-composer-check
+          make app-cs-check
+          make app-security-check
+          make app-test-with-code-coverage
+          make app-static-analysis
