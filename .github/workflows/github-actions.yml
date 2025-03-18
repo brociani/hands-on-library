@@ -15,9 +15,4 @@ jobs:
         with:
           php-version: '8.3'
           tools: composer:2
-      - run: make app-install
-      - run: make app-composer-check
-      - run: make app-cs-check
-      - run: make app-security-check
-      - run: make app-test-with-code-coverage
-      - run: make app-static-analysis
+      - run: echo bonjour

@@ -21,20 +21,11 @@ class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('my_client');
-        /** @var ArrayNodeDefinition $rootNode */
+        // This is our configuration file here !
+        // you need to define the yaml of our library.
+        $treeBuilder = new TreeBuilder('');
         $rootNode = $treeBuilder->getRootNode();
 
-        // @phpstan-ignore-next-line
-        $rootNode
-            ->children()
-                ->arrayNode('client')->isRequired()
-                    ->children()
-                        ->scalarNode('name')->isRequired()->cannotBeEmpty()->end()
-                        ->booleanNode('clock_header')->defaultValue(false)->end()
-                    ->end()
-                ->end()
-            ->end();
 
         return $treeBuilder;
     }

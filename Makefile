@@ -10,7 +10,7 @@ infra-up:
 	cd docker && docker-compose up -d
 
 app-shell:
-	docker exec -ti -u www-data hands-on-php-library-php-1 sh
+	docker exec -ti docker-php-1 bash
 
 app-composer-check: ## to validate Composer config
 	composer validate

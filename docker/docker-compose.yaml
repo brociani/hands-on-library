@@ -1,0 +1,5 @@
+services:
+  php:
+    build: ./
+    volumes:
+      - ../:/var/www/your-client
