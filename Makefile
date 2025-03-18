@@ -13,7 +13,7 @@ app-shell:
 	docker exec -ti -u www-data hands-on-php-library-php-1 sh
 
 app-composer-check: ## to validate Composer config
-	composer2 validate
+	composer validate
 
 app-cs-check: ## to launch php-cs-fixer in dry mode
 	vendor/bin/php-cs-fixer fix --allow-risky yes --dry-run --diff --verbose
@@ -25,7 +25,7 @@ app-install: ## to install dependencies
 	composer install --prefer-dist
 
 app-security-check: ## to check if any security issues in the PHP dependencies
-	composer2 audit
+	composer audit
 
 app-static-analysis: ## to run static analysis
 	vendor/bin/phpstan analyze --memory-limit=-1
