@@ -13,10 +13,8 @@ declare(strict_types=1);
 
 namespace HandsOnEkinoPhp\YourClient\Bridge\Symfony\DependencyInjection;
 
-use HandsOnEkinoPhp\YourClient\Client\TodosClient;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class HandsOnEkinoPhpExtension extends Extension
@@ -29,7 +27,7 @@ class HandsOnEkinoPhpExtension extends Extension
         $this->configureClientDefinition($container);
     }
 
-    private function configureClientDefinition(/*string $param1, bool $param2, int $param3... ,*/ ContainerBuilder $container): void
+    private function configureClientDefinition(/* string $param1, bool $param2, int $param3... , */ ContainerBuilder $container): void
     {
         $definition = new Definition('Our Class to be defined', ['Requirements of our class']);
         // Here an Hint : We need to set the definition of our class using the ContainerBuilder

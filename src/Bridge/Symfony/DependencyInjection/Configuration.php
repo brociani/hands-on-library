@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace HandsOnEkinoPhp\YourClient\Bridge\Symfony\DependencyInjection;
 
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -25,7 +24,6 @@ class Configuration implements ConfigurationInterface
         // you need to define the yaml of our library.
         $treeBuilder = new TreeBuilder('');
         $rootNode = $treeBuilder->getRootNode();
-
 
         return $treeBuilder;
     }
