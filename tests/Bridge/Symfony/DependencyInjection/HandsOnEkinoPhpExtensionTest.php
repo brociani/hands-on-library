@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Tests\Ekino\VwHttpClients\Bridge\Symfony\DependencyInjection;
 
 use HandsOnEkinoPhp\YourClient\Bridge\Symfony\DependencyInjection\HandsOnEkinoPhpExtension;
-use HandsOnEkinoPhp\YourClient\Client\TodosClient;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -38,28 +37,13 @@ class HandsOnEkinoPhpExtensionTest extends TestCase
 
     public function testFullConfig(): void
     {
-        $this->extension->load($this->getFullConfig(), $this->container);
+        $this->extension->load([[]], $this->container);
 
-        $this->assertHasDefinition(TodosClient::class);
+        // $this->assertHasDefinition();
     }
 
-    /**
-     * @return mixed[]
-     */
-    private function getFullConfig(): array
-    {
-        return [
-            'my_client' => [
-                'client' => [
-                    'name' => 'client_name',
-                    'clock_header' => true,
-                ],
-            ],
-        ];
-    }
-
-    private function assertHasDefinition(string $id): void
+    /*private function assertHasDefinition(string $id): void
     {
         $this->assertTrue($this->container->hasDefinition($id));
-    }
+    }*/
 }

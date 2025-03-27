@@ -6,11 +6,11 @@ default: help
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?##.*$$' $(MAKEFILE_LIST) | sort | awk '{split($$0, a, ":"); printf "\033[36m%-30s\033[0m %-30s %s\n", a[1], a[2], a[3]}'
 
-infra-up:
+infra-up: ## install and launch php container
 	cd docker && docker-compose up -d
 
-app-shell:
-	docker exec -ti -u www-data hands-on-php-library-php-1 sh
+infra-shell: ## run shell into php docker
+	docker exec -ti docker-php-1 sh
 
 app-composer-check: ## to validate Composer config
 	composer validate

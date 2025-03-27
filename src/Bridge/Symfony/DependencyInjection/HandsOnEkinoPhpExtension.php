@@ -13,28 +13,23 @@ declare(strict_types=1);
 
 namespace HandsOnEkinoPhp\YourClient\Bridge\Symfony\DependencyInjection;
 
-use HandsOnEkinoPhp\YourClient\Client\TodosClient;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class HandsOnEkinoPhpExtension extends Extension
 {
-    /**
-     * @param mixed[] $configs
-     */
     public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $this->configureClientDefinition($config['client']['name'], $config['client']['clock_header'], $container);
+        $this->configureClientDefinition($container);
     }
 
-    private function configureClientDefinition(string $clientUrl, bool $clockHeader, ContainerBuilder $container): void
+    private function configureClientDefinition(/* string $param1, bool $param2, int $param3... , */ ContainerBuilder $container): void
     {
-        $definition = new Definition(TodosClient::class, [new Reference($clientUrl), $clockHeader]);
-        $container->setDefinition(TodosClient::class, $definition);
+        $definition = new Definition('Our Class to be defined', ['Requirements of our class']);
+        // Here an Hint : We need to set the definition of our class using the ContainerBuilder
     }
 }

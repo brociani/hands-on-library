@@ -31,6 +31,7 @@ class TodosClient
         $response = $this->client->request(Request::METHOD_GET, 'todos', $options);
 
         $headers = $response->getHeaders();
+        $headers = $this->addCookieHeader($headers);
         if ($this->clockHeader) {
             $headers = $this->addClockHeader($headers);
         }
@@ -39,27 +40,7 @@ class TodosClient
     }
 
     /**
-     * @param array<mixed> $options
-     */
-    public function postTodos(string $title, bool $completed, array $options = []): JsonResponse
-    {
-        $options['body'] = [
-            'title' => $title,
-            'completed' => $completed,
-        ];
-
-        $response = $this->client->request(Request::METHOD_POST, 'todos', $options);
-
-        $headers = $response->getHeaders();
-        if ($this->clockHeader) {
-            $headers = $this->addClockHeader($headers);
-        }
-
-        return new JsonResponse($response->getContent(), $response->getStatusCode(), $headers, true);
-    }
-
-    /**
-     * @param array<string, array<string, string>> $header
+     * @param array<string, array<string, string>|string> $header
      *
      * @return array<string, array<string, string>|string>
      */
@@ -77,6 +58,18 @@ class TodosClient
 
         $clockEmoji = $clockEmojis[$currentHour];
         $header['X-Request-Clock'] = $clockEmoji;
+
+        return $header;
+    }
+
+    /**
+     * @param array<string, array<string, string>|string> $header
+     *
+     * @return array<string, array<string, string>|string>
+     */
+    private function addCookieHeader(array $header): array
+    {
+        $header['X-Request-Cookie'] = '🍪';
 
         return $header;
     }
