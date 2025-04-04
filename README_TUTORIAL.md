@@ -6,6 +6,15 @@ We will see how to create a Library in php
 
 First Fork this project and integrate it into https://gitlab.ekino.com/clement.luciani/hands-on-php-project using composer through VCS
 
+```
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/brociani/hands-on-library"
+        }
+    ]
+```
+
 there is two useful make command 
 * ```make infra-up``` to launch the docker
 * ```make infra-shell``` to connect to your container.
@@ -37,14 +46,14 @@ Now let's dive into the library creation :
 
 ## How this library works
 we have a client http that make a call, and add some headers.
-One header by default and another one optionnal.
+One header by default and another one optional.
 
 The goal of this Library is to use a symfony/http-client service defined it will be injected into our library through the configuration file
 
 You will define our configuration :
 * A node ``client`` with two params
 * The http-client defined through the key `name`
-* A boolean for the optionnal header named `clock_header`
+* A boolean for the optional header named `clock_header`
 
 take a look at the configuration file in :
 ``HandsOnEkinoPhp\YourClient\Bridge\Symfony\DependencyInjection\Configuration.php``
