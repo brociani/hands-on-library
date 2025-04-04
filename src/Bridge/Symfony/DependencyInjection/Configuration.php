@@ -20,10 +20,21 @@ class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        // This is our configuration file here !
-        // you need to define the yaml of our library.
-        $treeBuilder = new TreeBuilder('');
+        $treeBuilder = new TreeBuilder('hands_on_ekino_php');
         $rootNode = $treeBuilder->getRootNode();
+
+        // @phpstan-ignore-next-line
+        $rootNode
+            ->children()
+                ->arrayNode('client')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('clock_header')->defaultFalse()->end()
+                        ->scalarNode('name')->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
 
         return $treeBuilder;
     }

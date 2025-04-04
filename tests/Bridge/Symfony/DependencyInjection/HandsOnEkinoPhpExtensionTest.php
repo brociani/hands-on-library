@@ -11,39 +11,77 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Tests\Ekino\VwHttpClients\Bridge\Symfony\DependencyInjection;
+namespace HandsOnEkinoPhp\YourClient\Tests\Bridge\Symfony\DependencyInjection;
 
 use HandsOnEkinoPhp\YourClient\Bridge\Symfony\DependencyInjection\HandsOnEkinoPhpExtension;
+use HandsOnEkinoPhp\YourClient\Client\TodosClient;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 
 class HandsOnEkinoPhpExtensionTest extends TestCase
 {
-    /**
-     * @var ContainerBuilder
-     */
-    private $container;
-
-    /**
-     * @var HandsOnEkinoPhpExtension
-     */
-    private $extension;
-
-    protected function setUp(): void
+    public function testLoadConfigurationWithDefaultValues(): void
     {
-        $this->container = new ContainerBuilder();
-        $this->extension = new HandsOnEkinoPhpExtension();
+        $container = new ContainerBuilder();
+        $extension = new HandsOnEkinoPhpExtension();
+
+        $extension->load([
+            'hands_on_ekino_php' => [
+                'client' => [
+                    'clock_header' => true,
+                    'name' => 'http_client_test',
+                ],
+            ],
+        ], $container);
+
+        // Verify parameters are set correctly
+        $this->assertTrue($container->hasParameter('hands_on_ekino_php.your_client.clock_header'));
+        $this->assertTrue($container->getParameter('hands_on_ekino_php.your_client.clock_header'));
+
+        $this->assertTrue($container->hasParameter('hands_on_ekino_php.your_client.name'));
+        $this->assertSame('http_client_test', $container->getParameter('hands_on_ekino_php.your_client.name'));
+
+        // Verify that the TodosClient service is registered
+        $this->assertTrue($container->hasDefinition(TodosClient::class));
+
+        // Get the TodosClient definition
+        $definition = $container->getDefinition(TodosClient::class);
+        $arguments = $definition->getArguments();
+
+        // Verify the arguments
+        $this->assertCount(2, $arguments);
+
+        // First argument should be a Reference to the HTTP client
+        $this->assertInstanceOf(Reference::class, $arguments['$client']);
+        $this->assertSame('http_client_test', (string) $arguments['$client']);
+
+        // Second argument should be the clock_header parameter
+        $this->assertTrue($arguments['$clockHeader']);
     }
 
-    public function testFullConfig(): void
+    public function testLoadConfigurationWithClockHeaderDisabled(): void
     {
-        $this->extension->load([[]], $this->container);
+        $container = new ContainerBuilder();
+        $extension = new HandsOnEkinoPhpExtension();
 
-        // $this->assertHasDefinition();
+        $extension->load([
+            'hands_on_ekino_php' => [
+                'client' => [
+                    'clock_header' => false,
+                    'name' => 'http_client_test',
+                ],
+            ],
+        ], $container);
+
+        // Verify clock_header parameter is set to false
+        $this->assertFalse($container->getParameter('hands_on_ekino_php.your_client.clock_header'));
+
+        // Get the TodosClient definition
+        $definition = $container->getDefinition(TodosClient::class);
+        $arguments = $definition->getArguments();
+
+        // Verify the clock_header argument is false
+        $this->assertFalse($arguments['$clockHeader']);
     }
-
-    /*private function assertHasDefinition(string $id): void
-    {
-        $this->assertTrue($this->container->hasDefinition($id));
-    }*/
 }
