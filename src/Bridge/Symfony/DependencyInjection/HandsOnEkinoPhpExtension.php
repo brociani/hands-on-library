@@ -13,8 +13,10 @@ declare(strict_types=1);
 
 namespace HandsOnEkinoPhp\YourClient\Bridge\Symfony\DependencyInjection;
 
+use HandsOnEkinoPhp\YourClient\Client\TodosClient;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class HandsOnEkinoPhpExtension extends Extension
@@ -23,13 +25,22 @@ class HandsOnEkinoPhpExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
+        
+        $container->setParameter('hands_on_ekino_php.your_client.clock_header', $config['client']['clock_header']);
+        $container->setParameter('hands_on_ekino_php.your_client.name', $config['client']['name']);
 
         $this->configureClientDefinition($container);
     }
 
-    private function configureClientDefinition(/* string $param1, bool $param2, int $param3... , */ ContainerBuilder $container): void
+    private function configureClientDefinition(ContainerBuilder $container): void
     {
-        $definition = new Definition('Our Class to be defined', ['Requirements of our class']);
-        // Here an Hint : We need to set the definition of our class using the ContainerBuilder
+        $httpClientName = $container->getParameter('hands_on_ekino_php.your_client.name');
+        
+        $definition = new Definition(TodosClient::class, [
+            '$client'      => new Reference($httpClientName),
+            '$clockHeader' => $container->getParameter('hands_on_ekino_php.your_client.clock_header'),
+        ]);
+
+        $container->setDefinition(TodosClient::class, $definition);
     }
 }
