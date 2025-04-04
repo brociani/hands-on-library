@@ -23,6 +23,7 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder('hands_on_ekino_php');
         $rootNode = $treeBuilder->getRootNode();
 
+        // @phpstan-ignore-next-line
         $rootNode
             ->children()
                 ->arrayNode('client')

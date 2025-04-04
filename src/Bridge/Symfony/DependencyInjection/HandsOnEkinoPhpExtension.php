@@ -37,7 +37,7 @@ class HandsOnEkinoPhpExtension extends Extension
         $httpClientName = $container->getParameter('hands_on_ekino_php.your_client.name');
 
         $definition = new Definition(TodosClient::class, [
-            '$client' => new Reference($httpClientName),
+            '$client' => new Reference($httpClientName), // @phpstan-ignore-line
             '$clockHeader' => $container->getParameter('hands_on_ekino_php.your_client.clock_header'),
         ]);
 
