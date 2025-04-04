@@ -25,7 +25,7 @@ class HandsOnEkinoPhpExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
-        
+
         $container->setParameter('hands_on_ekino_php.your_client.clock_header', $config['client']['clock_header']);
         $container->setParameter('hands_on_ekino_php.your_client.name', $config['client']['name']);
 
@@ -35,9 +35,9 @@ class HandsOnEkinoPhpExtension extends Extension
     private function configureClientDefinition(ContainerBuilder $container): void
     {
         $httpClientName = $container->getParameter('hands_on_ekino_php.your_client.name');
-        
+
         $definition = new Definition(TodosClient::class, [
-            '$client'      => new Reference($httpClientName),
+            '$client' => new Reference($httpClientName),
             '$clockHeader' => $container->getParameter('hands_on_ekino_php.your_client.clock_header'),
         ]);
 
