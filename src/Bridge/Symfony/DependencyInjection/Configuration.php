@@ -22,8 +22,15 @@ class Configuration implements ConfigurationInterface
     {
         // This is our configuration file here !
         // you need to define the yaml of our library.
-        $treeBuilder = new TreeBuilder('');
+        $treeBuilder = new TreeBuilder('hands_on_ekino_php');
         $rootNode = $treeBuilder->getRootNode();
+
+        // @phpstan-ignore-next-line
+        $rootNode
+            ->children()
+                ->scalarNode('client')->end()
+                ->booleanNode('add_clock')->defaultFalse()->end()
+            ->end();
 
         return $treeBuilder;
     }

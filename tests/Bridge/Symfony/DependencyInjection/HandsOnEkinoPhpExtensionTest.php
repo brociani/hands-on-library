@@ -37,13 +37,16 @@ class HandsOnEkinoPhpExtensionTest extends TestCase
 
     public function testFullConfig(): void
     {
-        $this->extension->load([[]], $this->container);
+        $this->extension->load(['hands_on_ekino_php' => [
+            'client' => 'jsonplaceholder_client',
+            'add_clock' => true,
+        ]], $this->container);
 
-        // $this->assertHasDefinition();
+        $this->assertHasDefinition('todos_client');
     }
 
-    /*private function assertHasDefinition(string $id): void
+    private function assertHasDefinition(string $id): void
     {
         $this->assertTrue($this->container->hasDefinition($id));
-    }*/
+    }
 }
