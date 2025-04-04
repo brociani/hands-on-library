@@ -6,14 +6,6 @@ We will see how to create a Library in php
 
 First Fork this project and integrate it into https://gitlab.ekino.com/clement.luciani/hands-on-php-project using composer through VCS
 
-```
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/brociani/hands-on-library"
-        }
-    ]
-```
 
 there is two useful make command 
 * ```make infra-up``` to launch the docker
